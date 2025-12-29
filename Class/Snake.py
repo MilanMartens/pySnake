@@ -6,8 +6,8 @@ class Snake:
         self,
         x: float,
         y: float ,
-        velocity_x: float,
-        velocity_y: float,
+        velocity_x: int,
+        velocity_y: int,
         head_color: tuple[int,int,int],
         body_color: tuple[int,int,int],
         grid: Grid
@@ -84,3 +84,35 @@ class Snake:
         self.velocity_y = 1        
         self.y += self.lengte
         self.draw_snake_head(surface)
+        
+    def move_in_direction(
+        self, 
+        surface: pygame.Surface,
+        grid: Grid
+    )-> None:
+        DIRECTION_MAP = {
+            (0, -1): self.go_right,
+            (0, 1): self.go_left,
+            (1, 0): self.go_down,
+            (-1, 0): self.go_up
+        }
+        self.check_for_game_over(grid)
+        
+        richting = DIRECTION_MAP.get((self.velocity_y, self.velocity_x))
+        if richting:
+            richting(surface)
+            
+
+    def check_for_game_over(
+        self,
+        grid: Grid
+        )-> None:
+        if self.not_on_screen(grid):
+            print("GAME OVER")
+            pygame.quit()
+            quit()
+
+    def not_on_screen(self, grid):
+        return (self.x + 50 >= grid.width) or (self.x - 50 < 0) or (self.y - 50 < 0) or (self.y + 50 >= grid.height)
+            
+    

@@ -33,13 +33,6 @@ snelheid_x = -1
 snake = Snake(WIDTH/2, HEIGHT/2 , snelheid_x, snelheid_y, BLAUW, ROOD, grid)
 snake.draw_snake_head(gameDisplay)
 
-DIRECTION_MAP = {
-    (0, -1): snake.go_right,
-    (0, 1): snake.go_left,
-    (1, 0): snake.go_down,
-    (-1, 0): snake.go_up
-}
-
 #TODO SPAWN EEN FRUITJE
 # fruit = Fruit()
 
@@ -63,9 +56,7 @@ while not crashed:
             elif event.key == pygame.K_DOWN and not over_y(snake.velocity_y):
                 snake.go_down(gameDisplay)
     
-    func = DIRECTION_MAP.get((snake.velocity_y, snake.velocity_x))
-    if func:
-        func(gameDisplay)
+    snake.move_in_direction(gameDisplay, grid)
 
     # refresh window  
     pygame.display.update()
